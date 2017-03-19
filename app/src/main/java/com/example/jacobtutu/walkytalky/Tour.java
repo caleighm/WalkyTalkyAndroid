@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by jacobtutu on 18/03/17.
  */
 
-public class Tour implements Serializable{
+public class Tour {
+
     public int tourID;
     public String tourName;
     public String descrip;
