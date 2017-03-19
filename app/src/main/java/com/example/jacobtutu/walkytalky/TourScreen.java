@@ -7,6 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -45,6 +46,7 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
         // Add a marker in Sydney and move the camera
 //        List<TourPoint> points = tour.points;
 //        PolylineOptions pointOptions = new PolylineOptions();
@@ -71,8 +73,11 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
             pointOptions.add(p.latLon);
         }
 
-        mMap.addPolyline(pointOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(points.get(0).latLon));
+//        mMap.addPolyline(pointOptions);
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(points.get(0).latLon, 15, 0, 0)));
+
     }
 
 }
