@@ -3,6 +3,7 @@ package com.example.jacobtutu.walkytalky;
 import com.example.jacobtutu.walkytalky.providers.DataProvider;
 import com.example.jacobtutu.walkytalky.providers.FileDataProvider;
 import com.example.jacobtutu.walkytalky.util.LatLon;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +26,7 @@ public class TourPointParser {
     private int orderInTour;
     private double lat;
     private double lon;
-    private LatLon latLon;
+    private LatLng latLon;
     private String pointName;
     private String address;
     private URL imageURL;
@@ -61,7 +62,7 @@ public class TourPointParser {
         address = pointObject.get("Address").toString();
         lat = Long.parseLong(pointObject.get("Latitude").toString());
         lon = Long.parseLong(pointObject.get("Longitude").toString());
-        latLon = new LatLon(lat, lon);
+        latLon = new LatLng(lat, lon);
         imageURL = new URL(pointObject.get("ImageURL").toString());
         audioURL = new URL(pointObject.get("AudioIntroURL").toString());
         String[] c = pointObject.get("Categories").toString().split(",");

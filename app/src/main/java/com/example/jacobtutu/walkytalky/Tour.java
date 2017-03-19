@@ -22,6 +22,7 @@ public class Tour {
     public URL imageURL;
     public URL audioIntroURL;
     public TourCategory category;
+    public List<TourPoint> points;
 
     public Tour(String tourName, String author, String city, int tourID, TourCategory category) {
         this.tourName = tourName;
@@ -29,6 +30,7 @@ public class Tour {
         this.city = city;
         this.tourID = tourID;
         this.category = category;
+        this.points = new ArrayList<>();
     }
 
     public void setDescrip(String descrip) {
@@ -49,6 +51,14 @@ public class Tour {
 
     public void setAudioIntroURL(URL audioIntroURL) {
         this.audioIntroURL = audioIntroURL;
+    }
+
+    public void addPoint(TourPoint tp) {
+        points.add(tp);
+    }
+
+    public void setPoints(List<TourPoint> points) {
+        this.points = points;
     }
 
     public static ArrayList<Tour> getTours() {

@@ -4,13 +4,13 @@ import android.media.Rating;
 
 import com.example.jacobtutu.walkytalky.providers.DataProvider;
 import com.example.jacobtutu.walkytalky.providers.FileDataProvider;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,6 +33,18 @@ public class TourParser {
     private URL imageURL;
     private URL audioIntroURL;
     private TourCategory category;
+    private int pointID;
+    private int pointTourID;
+    private int orderInTour;
+    private double lat;
+    private double lon;
+    private LatLng latLon;
+    private String pointName;
+    private String address;
+    private URL pointImageURL;
+    private URL audioURL;
+    private List<PointCategory> categories;
+    private List<TourPoint> tourPoints;
 
     public TourParser(String filename) {
         this.filename = filename;
@@ -50,7 +62,9 @@ public class TourParser {
         for (int i = 0; i < tourArray.length(); i++) {
             JSONObject tourObject = new JSONObject(tourArray.get(i).toString());
             parseTourObject(tourObject);
-            tours.add(makeTour());
+            Tour tour = makeTour();
+            tour.setPoints(tourPoints);
+            tours.add(tour);
         }
         return tours;
     }
@@ -63,7 +77,7 @@ public class TourParser {
         dateCreated = parseDate(tourObject.get("Date").toString());
         city = tourObject.get("City").toString();
         rating = parseRating(tourObject.get("Rating").toString());
-        imageURL = new URL(tourObject.get("ImageURL").toString());
+        pointImageURL = new URL(tourObject.get("ImageURL").toString());
         audioIntroURL = new URL(tourObject.get("AudioIntroURL").toString());
         String c = tourObject.get("Category").toString();
         switch (c) {
@@ -75,6 +89,13 @@ public class TourParser {
                 category = TourCategory.HISTORY;
             case "Art":
                 category = TourCategory.ART;
+        }
+        JSONArray points = new JSONArray(tourObject.get("Points").toString());
+        tourPoints = new ArrayList<>();
+        for (int i = 0; i < points.length(); i++) {
+            JSONObject pointObject = new JSONObject(points.get(i).toString());
+            parsePointObject(pointObject);
+            tourPoints.add(makePoint());
         }
     }
 
@@ -95,9 +116,46 @@ public class TourParser {
         tour.setDateCreated(dateCreated);
         tour.setDescrip(descrip);
         tour.setRating(rating);
-        tour.setImageURL(imageURL);
+        tour.setImageURL(pointImageURL);
         tour.setAudioIntroURL(audioIntroURL);
         return tour;
+    }
+
+    public void parsePointObject(JSONObject pointObject) throws JSONException, MalformedURLException{
+        pointTourID = Integer.parseInt(pointObject.get("TourID").toString());
+        pointID = Integer.parseInt(pointObject.get("PointID").toString());
+        orderInTour = Integer.parseInt(pointObject.get("OrderInTour").toString());
+        pointName = pointObject.get("Name").toString();
+        address = pointObject.get("Address").toString();
+        lat = Long.parseLong(pointObject.get("Latitude").toString());
+        lon = Long.parseLong(pointObject.get("Longitude").toString());
+        latLon = new LatLng(lat, lon);
+        pointImageURL = new URL(pointObject.get("ImageURL").toString());
+        audioURL = new URL(pointObject.get("AudioIntroURL").toString());
+        String[] c = pointObject.get("Categories").toString().split(",");
+        for (int i = 0; i < c.length; i++) {
+            switch (c[i]) {
+                case "Garden" :
+                    categories.add(PointCategory.GARDEN);
+                case "Food" :
+                    categories.add(PointCategory.FOOD);
+                case "Sightseeing" :
+                    categories.add(PointCategory.SIGHTSEEING);
+                case "Entertainment" :
+                    categories.add(PointCategory.ENTERTAINMENT);
+                case "Library" :
+                    categories.add(PointCategory.LIBRARY);
+            }
+        }
+    }
+
+    public TourPoint makePoint() {
+        TourPoint tourPoint = new TourPoint(pointName, pointID, pointTourID, orderInTour, latLon);
+        tourPoint.setCategories(categories);
+        tourPoint.setAddress(address);
+        tourPoint.setImageURL(pointImageURL);
+        tourPoint.setAudioURL(audioURL);
+        return tourPoint;
     }
 
 //    public String loadJSONFromAsset() {
