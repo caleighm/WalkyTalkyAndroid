@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.json.JSONException;
 
 import java.io.BufferedInputStream;
@@ -25,14 +34,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Response;
+
+import static com.example.jacobtutu.walkytalky.Tour.points;
 
 
 public class TourDetailActivity extends AppCompatActivity {
 
     final static String TAG = "TourDetailActivity";
     private HttpTask httpTask;
+    public ArrayList<TourPoint> points;
 
 
     @Override
@@ -62,19 +75,19 @@ public class TourDetailActivity extends AppCompatActivity {
                     String jsonPoints = response.body().string();
                     response.body().close();
                     TourPointParser parser = new TourPointParser();
-                    final ArrayList<TourPoint> points = parser.parsePoints(jsonPoints);
+                    points = parser.parsePoints(jsonPoints);
 
                     Log.d(TAG, "POINTS START HERE");
                     for (TourPoint point : points) {
                         Log.d(TAG, point.name);
                     }
 
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            loadListView(points);
-//                        }
-//                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadListView(points);
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -87,7 +100,6 @@ public class TourDetailActivity extends AppCompatActivity {
         TextView tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         TextView tvDesc = (TextView) findViewById(R.id.tvDesc);
 
-
         String name = bundle.getString(TourSearch.bundleTourName);
         String author = bundle.getString(TourSearch.bundleAuthor);
         String descrip = bundle.getString(TourSearch.bundleDescrip);
@@ -95,7 +107,13 @@ public class TourDetailActivity extends AppCompatActivity {
         tvName.setText(name);
         tvAuthor.setText(author);
         tvDesc.setText(descrip);
+    }
 
+    private void loadListView(ArrayList<TourPoint> points) {
+        PointsAdapter adapter = new PointsAdapter(this, points);
 
+        final ListView lv = (ListView) findViewById (R.id.lvPoints);
+
+        lv.setAdapter(adapter);
     }
 }

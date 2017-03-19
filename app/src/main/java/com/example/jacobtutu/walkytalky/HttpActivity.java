@@ -24,7 +24,7 @@ class HttpTask {
 
     private static final String TAG = "HttpTask";
 
-    private static final String DOMAIN = "http://206.12.42.139:8000";
+    private static final String DOMAIN = "http://10.19.128.213:8000";
     private static final String ALL_TOURS = "/all-tours";
     private static final String TOUR = "/tour?tourid=";
 
