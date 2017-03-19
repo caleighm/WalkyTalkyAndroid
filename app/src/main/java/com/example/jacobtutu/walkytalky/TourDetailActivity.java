@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,9 +44,11 @@ import static com.example.jacobtutu.walkytalky.Tour.points;
 
 public class TourDetailActivity extends AppCompatActivity {
 
+    public static final String JSON_POINTS = "JSON_POINTS";
     final static String TAG = "TourDetailActivity";
     private HttpTask httpTask;
     public ArrayList<TourPoint> points;
+    public String jsonPoints;
 
 
     @Override
@@ -72,7 +75,7 @@ public class TourDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Response response) {
                 try {
-                    String jsonPoints = response.body().string();
+                    jsonPoints = response.body().string();
                     response.body().close();
                     TourPointParser parser = new TourPointParser();
                     points = parser.parsePoints(jsonPoints);
@@ -115,5 +118,20 @@ public class TourDetailActivity extends AppCompatActivity {
         final ListView lv = (ListView) findViewById (R.id.lvPoints);
 
         lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+
+                bundle.putString(JSON_POINTS, jsonPoints);
+
+                Intent intent = new Intent(getBaseContext(), TourScreen.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+
+            }
+        });
     }
 }

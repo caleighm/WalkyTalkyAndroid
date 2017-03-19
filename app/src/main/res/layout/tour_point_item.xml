@@ -14,6 +14,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="6dp"
         android:text="Sarah"
-        android:textAppearance="?android:attr/textAppearanceLarge" />s
+        android:textAppearance="?android:attr/textAppearanceSmall" />s
 
 </RelativeLayout>
