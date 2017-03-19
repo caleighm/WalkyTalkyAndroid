@@ -10,7 +10,7 @@ import java.util.Date;
  */
 
 public class Tour {
-    private String tourID;
+    private int tourID;
     private String tourName;
     private String descrip;
     private String author;
@@ -20,10 +20,11 @@ public class Tour {
     private URL imageURL;
     private URL audioIntroURL;
 
-    public Tour(String tourName, String author, String city) {
+    public Tour(String tourName, String author, String city, int tourID) {
         this.tourName = tourName;
         this.author = author;
         this.city = city;
+        this.tourID = tourID;
     }
 
     public void setDescrip(String descrip) {

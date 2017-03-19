@@ -12,7 +12,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jacobtutu on 18/03/17.
@@ -20,7 +22,7 @@ import java.util.Date;
 
 public class TourParser {
     private String filename;
-    private String tourID;
+    private int tourID;
     private String tourName;
     private String descrip;
     private String author;
@@ -34,23 +36,25 @@ public class TourParser {
         this.filename = filename;
     }
 
-    public void parse() throws IOException, JSONException {
+    public List<Tour> parse() throws IOException, JSONException {
         DataProvider dataProvider = new FileDataProvider(filename);
 
-        parseTours(dataProvider.dataSourceToString());
+        return parseTours(dataProvider.dataSourceToString());
     }
 
-    public void parseTours(String jsonResponse) throws JSONException, MalformedURLException {
+    public List<Tour> parseTours(String jsonResponse) throws JSONException, MalformedURLException {
         JSONArray tourArray = new JSONArray(jsonResponse);
+        List<Tour> tours = new ArrayList();
         for (int i = 0; i < tourArray.length(); i++) {
             JSONObject tourObject = new JSONObject(tourArray.get(i).toString());
             parseTourObject(tourObject);
-            storeToTour();
+            tours.add(makeTour());
         }
+        return tours;
     }
 
     public void parseTourObject(JSONObject tourObject) throws JSONException, MalformedURLException{
-        tourID = tourObject.get("TourID").toString();
+        tourID = Integer.parseInt(tourObject.get("TourID").toString());
         tourName = tourObject.get("Name").toString();
         descrip = tourObject.get("Description").toString();
         author = tourObject.get("Author").toString();
@@ -73,7 +77,13 @@ public class TourParser {
         return Rating.newStarRating(Rating.RATING_5_STARS, Float.parseFloat(rating));
     }
 
-    public void storeToTour() {
-
+    public Tour makeTour() {
+        Tour tour = new Tour(tourName, author, city, tourID);
+        tour.setDateCreated(dateCreated);
+        tour.setDescrip(descrip);
+        tour.setRating(rating);
+        tour.setImageURL(imageURL);
+        tour.setAudioIntroURL(audioIntroURL);
+        return tour;
     }
 }
