@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<!--      <module fileurl="file://$PROJECT_DIR$/WalkyTalky.iml" filepath="$PROJECT_DIR$/WalkyTalky.iml" />-->
       <module fileurl="file://$PROJECT_DIR$/WalkyTalkyAndroid.iml" filepath="$PROJECT_DIR$/WalkyTalkyAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

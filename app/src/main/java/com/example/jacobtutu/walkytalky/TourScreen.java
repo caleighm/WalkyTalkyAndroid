@@ -11,7 +11,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
@@ -44,8 +46,10 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+       // Tour tour = (Tour) getIntent().getSerializableExtra("tour");
 
         // Add a marker in Sydney and move the camera
+
 //        List<TourPoint> points = tour.points;
 //        PolylineOptions pointOptions = new PolylineOptions();
 //        for (TourPoint p : points) {
@@ -65,14 +69,22 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
         points.add(new TourPoint("Cool3", 3, 1, 3, new LatLng(49.2666566, -123.2573003)));
         points.add(new TourPoint("Cool4", 4, 1, 4, new LatLng(49.2666867, -123.2726212)));
 
-        PolylineOptions pointOptions = new PolylineOptions();
-        for (TourPoint p : points) {
-            mMap.addMarker(new MarkerOptions().position(p.latLon).title(p.name));
-            pointOptions.add(p.latLon);
-        }
 
-        mMap.addPolyline(pointOptions);
+        // points = tour.points;
+
+//        PolylineOptions pointOptions = new PolylineOptions();
+         for (TourPoint p : points) {
+             mMap.addMarker(new MarkerOptions().position(p.latLon).title(p.name));
+//             pointOptions.add(p.latLon);
+         }
+
+
+        // mMap.addPolyline(pointOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(points.get(0).latLon));
+
+//         mMap.addPolyline(pointOptions);
+//         mMap.moveCamera(CameraUpdateFactory.newLatLng(tour.points.get(0).latLon));
+
     }
 
 }
