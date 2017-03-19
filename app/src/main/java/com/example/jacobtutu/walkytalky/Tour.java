@@ -11,12 +11,8 @@ import java.util.Date;
  * Created by jacobtutu on 18/03/17.
  */
 
-<<<<<<< HEAD
-public class Tour implements Serializable {
-=======
 public class Tour {
 
->>>>>>> master
     public int tourID;
     public String tourName;
     public String descrip;
