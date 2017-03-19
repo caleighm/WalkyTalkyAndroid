@@ -7,15 +7,6 @@
               android:orientation="vertical"
               tools:context="com.example.jacobtutu.walkytalky.TourDetailActivity">
 
-    <ListView
-        android:id="@+id/lvPoints"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
-
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
@@ -42,5 +33,14 @@
         android:paddingRight="6dp"
         android:text="Description"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ListView
+        android:id="@+id/lvPoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
 
 </LinearLayout>
