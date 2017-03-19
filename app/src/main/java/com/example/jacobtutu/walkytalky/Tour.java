@@ -2,6 +2,8 @@ package com.example.jacobtutu.walkytalky;
 
 import android.media.Rating;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -65,7 +67,11 @@ public class Tour implements Serializable{
 
     public static ArrayList<Tour> getTours() {
         ArrayList<Tour> tours = new ArrayList<Tour>();
-        tours.add(new Tour("Van Tour", "Caleigh", "Vancouver", 1, TourCategory.SIGHTSEEING));
+        Tour cTour = new Tour("Van Tour", "Caleigh", "Vancouver", 1, TourCategory.SIGHTSEEING);
+//        TourPoint point = new TourPoint("Cool", 1, 1, 1, new LatLng(49.2670278, -123.2621906));
+//        point.addCategory(PointCategory.ENTERTAINMENT);
+//        cTour.addPoint(point);
+        tours.add(cTour);
         tours.add(new Tour("UBC", "Nicole", "Vancouver", 2, TourCategory.HISTORY));
         tours.add(new Tour("Gastown", "Ostap", "Vancouver", 3, TourCategory.FOOD));
         return tours;
