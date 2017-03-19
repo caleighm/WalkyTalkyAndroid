@@ -46,7 +46,6 @@ public class TourSearch extends AppCompatActivity {
         ListView lv = (ListView) findViewById (R.id.lvTours);
 
         lv.setAdapter(adapter);
-        setContentView(lv);
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
