@@ -32,8 +32,8 @@ public class Tour implements Serializable{
     public Date dateCreated;
     public String city;
     public Rating rating;
-    public URL imageURL;
-    public URL audioIntroURL;
+    public String imageURL;
+    public String audioIntroURL;
     public TourCategory category;
     public static List<TourPoint> points;
 
@@ -59,11 +59,11 @@ public class Tour implements Serializable{
         this.rating = rating;
     }
 
-    public void setImageURL(URL imageURL) {
+    public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
 
-    public void setAudioIntroURL(URL audioIntroURL) {
+    public void setAudioIntroURL(String audioIntroURL) {
         this.audioIntroURL = audioIntroURL;
     }
 
@@ -90,8 +90,8 @@ public class Tour implements Serializable{
         Tour testTour = new Tour("Steveston Film Spot Tour", "Jacob", "Richmond", 4, TourCategory.FOOD);
         tours.add(testTour);
         testTour.setDescrip("With its fairy tale charm, it's no wonder visitors flock to the picturesque seaside village of Steveston. ");
-        URL testURL;
-        testURL = new URL("http://604now.com/wp-content/uploads/2016/07/storybrooke-steveston.jpg");
+
+        String testURL = "http://604now.com/wp-content/uploads/2016/07/storybrooke-steveston.jpg";
         testTour.setImageURL(testURL);
 
         TourPoint p1 = new TourPoint("name1", 1, 1, 1, new LatLng(22, 22));

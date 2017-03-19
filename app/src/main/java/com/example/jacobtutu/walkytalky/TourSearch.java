@@ -13,11 +13,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.net.MalformedURLException;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Response;
 
 public class TourSearch extends AppCompatActivity {
 
@@ -29,32 +35,35 @@ public class TourSearch extends AppCompatActivity {
     final static  String bundleCity = "CITY";
     final static String bundleRating = "RATING";
     final static String bundleImageURL = "IMAGE URL";
+    final static String bundleTourId = "TOUR ID";
 
     Tour selectedTour;
 
     final static String TAG = "MyActivity";
 
+    private HttpTask httpTask;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-
-    };
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.navigation_home:
+//                    mTextMessage.setText(R.string.title_home);
+//                    return true;
+//                case R.id.navigation_dashboard:
+//                    mTextMessage.setText(R.string.title_dashboard);
+//                    return true;
+//                case R.id.navigation_notifications:
+//                    mTextMessage.setText(R.string.title_notifications);
+//                    return true;
+//            }
+//            return false;
+//        }
+//
+//    };
 
 
     @Override
@@ -62,21 +71,59 @@ public class TourSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_search);
 
-        ArrayList<Tour> arrayOfTours = null;
-        try {
-            arrayOfTours = Tour.getTours();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        ToursAdapter adapter = new ToursAdapter(this, arrayOfTours);
+        httpTask = new HttpTask(this);
+        getTours();
+    }
+
+    private void getTours() {
+        httpTask.getAllTours(new HttpTask.HttpCallback() {
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+
+            @Override
+            public void onError(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response) {
+                try {
+                    String jsonTours = response.body().string();
+                    response.body().close();
+                    TourParser parser = new TourParser();
+                    final ArrayList<Tour> tours = parser.parseTours(jsonTours);
+
+                    for (Tour tour : tours) {
+                        Log.d(TAG, tour.tourName);
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadListView(tours);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void loadListView(ArrayList<Tour> tours) {
+        ToursAdapter adapter = new ToursAdapter(this, tours);
 
         final ListView lv = (ListView) findViewById (R.id.lvTours);
 
         lv.setAdapter(adapter);
 
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,45 +136,17 @@ public class TourSearch extends AppCompatActivity {
                 bundle.putString(bundleTourName, tour.tourName);
                 bundle.putString(bundleDescrip, tour.descrip);
                 bundle.putString(bundleAuthor, tour.author);
-
-                // bundle.putString(bundleDateCreated, tour.dateCreated.toString());
-                bundle.putString(bundleDateCreated, "");
-
                 bundle.putString(bundleCity, tour.city);
+                bundle.putInt(bundleTourId, tour.tourID);
+                bundle.putString(bundleImageURL, tour.imageURL);
 
-
-                // bundle.putString(bundleRating, tour.rating.toString());
-                bundle.putString(bundleRating, "");
-
-                bundle.putString(bundleImageURL, "https://www.ubc.ca/_assets/img/martha-piper-plaza-1920x700.jpg");
                 Intent intent = new Intent(getBaseContext(), TourDetailActivity.class);
                 intent.putExtras(bundle);
 
-
-                if (tour != null) {
-                    Log.d(TAG, "onItemClick: " + bundle.get(bundleDescrip));  // a line to test if object is null or not
-                    startActivity(intent);
-
-                } else {
-                    return;
-                }
-
-
-                // bundle.putString(bundleRating, tour.rating.toString());
-                bundle.putString(bundleRating, "");
-
-
-                bundle.putString(bundleImageURL, "https://www.ubc.ca/_assets/img/martha-piper-plaza-1920x700.jpg");
-                Intent appInfo = new Intent(getBaseContext(), TourDetailActivity.class);
-
-                appInfo.putExtra("tour", tour);
-
-                startActivity(appInfo);
+                startActivity(intent);
 
             }
         });
-
-
     }
 
 

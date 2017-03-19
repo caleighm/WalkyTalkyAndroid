@@ -29,23 +29,19 @@ public class TourPointParser {
     private LatLng latLon;
     private String pointName;
     private String address;
-    private URL imageURL;
-    private URL audioURL;
+    private String imageURL;
+    private String audioURL;
     private List<PointCategory> categories;
-
-    public TourPointParser(String filename) {
-        this.filename = filename;
-    }
 
     public List<TourPoint> parse() throws IOException, JSONException {
         DataProvider dataProvider = new FileDataProvider(filename);
 
-        return parseTours(dataProvider.dataSourceToString());
+        return parsePoints(dataProvider.dataSourceToString());
     }
 
-    public List<TourPoint> parseTours(String jsonResponse) throws JSONException, MalformedURLException {
+    public ArrayList<TourPoint> parsePoints(String jsonResponse) throws JSONException, MalformedURLException {
         JSONArray pointArray = new JSONArray(jsonResponse);
-        List<TourPoint> points = new ArrayList();
+        ArrayList<TourPoint> points = new ArrayList();
         for (int i = 0; i < pointArray.length(); i++) {
             JSONObject pointObject = new JSONObject(pointArray.get(i).toString());
             parsePointObject(pointObject);
@@ -63,8 +59,8 @@ public class TourPointParser {
         lat = Long.parseLong(pointObject.get("Latitude").toString());
         lon = Long.parseLong(pointObject.get("Longitude").toString());
         latLon = new LatLng(lat, lon);
-        imageURL = new URL(pointObject.get("ImageURL").toString());
-        audioURL = new URL(pointObject.get("AudioIntroURL").toString());
+        imageURL = pointObject.get("ImageURL").toString();
+        audioURL = pointObject.get("AudioIntroURL").toString();
         String[] c = pointObject.get("Categories").toString().split(",");
         for (int i = 0; i < c.length; i++) {
             switch (c[i]) {

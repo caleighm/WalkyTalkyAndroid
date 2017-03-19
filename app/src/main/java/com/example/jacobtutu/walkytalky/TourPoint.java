@@ -18,8 +18,8 @@ public class TourPoint {
     public String name;
     public String address;
     public int orderInTour;
-    public URL audioURL;
-    public URL imageURL;
+    public String audioURL;
+    public String imageURL;
     public List<PointCategory> categories;
     public LatLng latLon;
 
@@ -36,11 +36,11 @@ public class TourPoint {
         this.address = ad;
     }
 
-    public void setAudioURL(URL audioURL) {
+    public void setAudioURL(String audioURL) {
         this.audioURL = audioURL;
     }
 
-    public void setImageURL(URL imageURL) {
+    public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
 

@@ -30,8 +30,8 @@ public class TourParser {
     private Date dateCreated;
     private String city;
     private Rating rating;
-    private URL imageURL;
-    private URL audioIntroURL;
+    private String imageURL;
+    private String audioIntroURL;
     private TourCategory category;
     private int pointID;
     private int pointTourID;
@@ -41,14 +41,14 @@ public class TourParser {
     private LatLng latLon;
     private String pointName;
     private String address;
-    private URL pointImageURL;
-    private URL audioURL;
+    private String pointImageURL;
+    private String audioURL;
     private List<PointCategory> categories;
     public List<TourPoint> tourPoints;
 
-    public TourParser(String filename) {
-        this.filename = filename;
-    }
+//    public TourParser(String filename) {
+//        this.filename = filename;
+//    }
 
     public List<Tour> parse() throws IOException, JSONException {
         DataProvider dataProvider = new FileDataProvider(filename);
@@ -56,47 +56,46 @@ public class TourParser {
         return parseTours(dataProvider.dataSourceToString());
     }
 
-    public List<Tour> parseTours(String jsonResponse) throws JSONException, MalformedURLException {
+    public ArrayList<Tour> parseTours(String jsonResponse) throws JSONException, MalformedURLException {
         JSONArray tourArray = new JSONArray(jsonResponse);
-        List<Tour> tours = new ArrayList();
+        ArrayList<Tour> tours = new ArrayList();
         for (int i = 0; i < tourArray.length(); i++) {
             JSONObject tourObject = new JSONObject(tourArray.get(i).toString());
             parseTourObject(tourObject);
             Tour tour = makeTour();
-            tour.setPoints(tourPoints);
+//            tour.setPoints(tourPoints);
             tours.add(tour);
         }
         return tours;
     }
 
     public void parseTourObject(JSONObject tourObject) throws JSONException, MalformedURLException{
-        tourID = Integer.parseInt(tourObject.get("TourID").toString());
-        tourName = tourObject.get("Name").toString();
-        descrip = tourObject.get("Description").toString();
-        author = tourObject.get("Author").toString();
-        dateCreated = parseDate(tourObject.get("Date").toString());
-        city = tourObject.get("City").toString();
-        rating = parseRating(tourObject.get("Rating").toString());
-        pointImageURL = new URL(tourObject.get("ImageURL").toString());
-        audioIntroURL = new URL(tourObject.get("AudioIntroURL").toString());
-        String c = tourObject.get("Category").toString();
+        tourID = Integer.parseInt(tourObject.get("tour_id").toString());
+        tourName = tourObject.get("name").toString();
+        descrip = tourObject.get("description").toString();
+        author = tourObject.get("author").toString();
+        city = tourObject.get("city").toString();
+        rating = parseRating(tourObject.get("rating").toString());
+        pointImageURL = tourObject.get("image_url").toString();
+        audioIntroURL = tourObject.get("audio_intro_url").toString();
+        String c = tourObject.get("category").toString();
         switch (c) {
-            case "Food":
+            case "food":
                 category = TourCategory.FOOD;
-            case "Sightseeing":
+            case "sightseeing":
                 category = TourCategory.SIGHTSEEING;
-            case "History":
+            case "history":
                 category = TourCategory.HISTORY;
-            case "Art":
+            case "art":
                 category = TourCategory.ART;
         }
-        JSONArray points = new JSONArray(tourObject.get("Points").toString());
-        tourPoints = new ArrayList<>();
-        for (int i = 0; i < points.length(); i++) {
-            JSONObject pointObject = new JSONObject(points.get(i).toString());
-            parsePointObject(pointObject);
-            tourPoints.add(makePoint());
-        }
+//        JSONArray points = new JSONArray(tourObject.get("Points").toString());
+//        tourPoints = new ArrayList<>();
+//        for (int i = 0; i < points.length(); i++) {
+//            JSONObject pointObject = new JSONObject(points.get(i).toString());
+//            parsePointObject(pointObject);
+//            tourPoints.add(makePoint());
+//        }
     }
 
     public Date parseDate (String date) {
@@ -130,8 +129,8 @@ public class TourParser {
         lat = Long.parseLong(pointObject.get("Latitude").toString());
         lon = Long.parseLong(pointObject.get("Longitude").toString());
         latLon = new LatLng(lat, lon);
-        pointImageURL = new URL(pointObject.get("ImageURL").toString());
-        audioURL = new URL(pointObject.get("AudioIntroURL").toString());
+        pointImageURL = pointObject.get("ImageURL").toString();
+        audioURL = pointObject.get("AudioIntroURL").toString();
         String[] c = pointObject.get("Categories").toString().split(",");
         for (int i = 0; i < c.length; i++) {
             switch (c[i]) {
