@@ -44,6 +44,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.jacobtutu.walkytalky.TourSearch" />
         </activity>
+        <activity android:name=".TourDetailActivity"></activity>
     </application>
 
 </manifest>
