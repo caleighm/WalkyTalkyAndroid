@@ -5,6 +5,7 @@ import android.media.Rating;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jacobtutu on 18/03/17.
@@ -20,12 +21,14 @@ public class Tour {
     public Rating rating;
     public URL imageURL;
     public URL audioIntroURL;
+    public TourCategory category;
 
-    public Tour(String tourName, String author, String city, int tourID) {
+    public Tour(String tourName, String author, String city, int tourID, TourCategory category) {
         this.tourName = tourName;
         this.author = author;
         this.city = city;
         this.tourID = tourID;
+        this.category = category;
     }
 
     public void setDescrip(String descrip) {
@@ -50,9 +53,9 @@ public class Tour {
 
     public static ArrayList<Tour> getTours() {
         ArrayList<Tour> tours = new ArrayList<Tour>();
-        tours.add(new Tour("Van Tour", "Caleigh", "Vancouver", 1));
-        tours.add(new Tour("UBC", "Nicole", "Vancouver", 2));
-        tours.add(new Tour("Gastown", "Ostap", "Vancouver", 3));
+        tours.add(new Tour("Van Tour", "Caleigh", "Vancouver", 1, TourCategory.SIGHTSEEING));
+        tours.add(new Tour("UBC", "Nicole", "Vancouver", 2, TourCategory.HISTORY));
+        tours.add(new Tour("Gastown", "Ostap", "Vancouver", 3, TourCategory.FOOD));
         return tours;
     }
 }

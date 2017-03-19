@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class TourParser {
     private Rating rating;
     private URL imageURL;
     private URL audioIntroURL;
+    private TourCategory category;
 
     public TourParser(String filename) {
         this.filename = filename;
@@ -63,6 +65,17 @@ public class TourParser {
         rating = parseRating(tourObject.get("Rating").toString());
         imageURL = new URL(tourObject.get("ImageURL").toString());
         audioIntroURL = new URL(tourObject.get("AudioIntroURL").toString());
+        String c = tourObject.get("Category").toString();
+        switch (c) {
+            case "Food":
+                category = TourCategory.FOOD;
+            case "Sightseeing":
+                category = TourCategory.SIGHTSEEING;
+            case "History":
+                category = TourCategory.HISTORY;
+            case "Art":
+                category = TourCategory.ART;
+        }
     }
 
     public Date parseDate (String date) {
@@ -78,7 +91,7 @@ public class TourParser {
     }
 
     public Tour makeTour() {
-        Tour tour = new Tour(tourName, author, city, tourID);
+        Tour tour = new Tour(tourName, author, city, tourID, category);
         tour.setDateCreated(dateCreated);
         tour.setDescrip(descrip);
         tour.setRating(rating);
@@ -86,4 +99,29 @@ public class TourParser {
         tour.setAudioIntroURL(audioIntroURL);
         return tour;
     }
+
+//    public String loadJSONFromAsset() {
+//        String json = null;
+//        try {
+//
+//            InputStream is = getAssets().open("file_name.json");
+//
+//            int size = is.available();
+//
+//            byte[] buffer = new byte[size];
+//
+//            is.read(buffer);
+//
+//            is.close();
+//
+//            json = new String(buffer, "UTF-8");
+//
+//
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//            return null;
+//        }
+//        return json;
+//
+//    }
 }
