@@ -1,5 +1,6 @@
 package com.example.jacobtutu.walkytalky;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -13,6 +14,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
+import org.json.JSONException;
+
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -21,11 +25,27 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Tour tour;
+    private List<TourPoint> points;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String jsonPoints = bundle.getString(TourDetailActivity.JSON_POINTS);
+
+        TourPointParser parser = new TourPointParser();
+        try {
+            points = parser.parsePoints(jsonPoints);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -47,52 +67,11 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-       // Tour tour = (Tour) getIntent().getSerializableExtra("tour");
 
-
-        // Add a marker in Sydney and move the camera
-
-//        List<TourPoint> points = tour.points;
-//        PolylineOptions pointOptions = new PolylineOptions();
-//        for (TourPoint p : points) {
-//            mMap.addMarker(new MarkerOptions().position(p.latLon).title(p.name));
-//            pointOptions.add(p.latLon);
-//        }
-//        mMap.addPolyline(pointOptions);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(tour.points.get(0).latLon));
-
-//        mMap.addMarker(new MarkerOptions().position(new LatLng(49, -133)).title("Canada"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(49, -133)));
-
-        List<TourPoint> points = new ArrayList<>();
-
-        points.add(new TourPoint("Cool", 1, 1, 1, new LatLng(49.2670278, -123.2621906)));
-        points.add(new TourPoint("Cool2", 2, 1, 2, new LatLng(49.269574, -123.2587997)));
-        points.add(new TourPoint("Cool3", 3, 1, 3, new LatLng(49.2666566, -123.2573003)));
-        points.add(new TourPoint("Cool4", 4, 1, 4, new LatLng(49.2666867, -123.2726212)));
-
-
-
-//         // points = tour.points;
-//
-// //        PolylineOptions pointOptions = new PolylineOptions();
-//          for (TourPoint p : points) {
-//              mMap.addMarker(new MarkerOptions().position(p.latLon).title(p.name));
-// //             pointOptions.add(p.latLon);
-//          }
-//
-//
-//         // mMap.addPolyline(pointOptions);
-//         mMap.moveCamera(CameraUpdateFactory.newLatLng(points.get(0).latLon));
-
-//         mMap.addPolyline(pointOptions);
-//         mMap.moveCamera(CameraUpdateFactory.newLatLng(tour.points.get(0).latLon));
-
-//        mMap.addPolyline(pointOptions);
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
-
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(points.get(0).latLon, 15, 0, 0)));
-
+        for (TourPoint p : points) {
+            mMap.addMarker(new MarkerOptions().position(p.latLon).title(p.name));
+        }
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(points.get(0).latLon, 13, 0, 0)));
 
     }
 
