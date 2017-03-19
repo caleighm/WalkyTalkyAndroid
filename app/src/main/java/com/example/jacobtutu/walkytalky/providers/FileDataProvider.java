@@ -19,7 +19,7 @@ public class FileDataProvider extends AbstractFileDataProvider {
      * @param fileName   the name of the file containing the source data
      */
     public FileDataProvider(String fileName) {
-        this.fileName = "data/" + fileName;
+        this.fileName = "res/raw/" + fileName;
     }
 
     @Override
