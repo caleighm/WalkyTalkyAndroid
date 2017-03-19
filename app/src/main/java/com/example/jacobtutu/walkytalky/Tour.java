@@ -11,7 +11,12 @@ import java.util.Date;
  * Created by jacobtutu on 18/03/17.
  */
 
+<<<<<<< HEAD
 public class Tour implements Serializable {
+=======
+public class Tour {
+
+>>>>>>> master
     public int tourID;
     public String tourName;
     public String descrip;
@@ -22,6 +27,7 @@ public class Tour implements Serializable {
     public URL imageURL;
     public URL audioIntroURL;
     public TourCategory category;
+    public List<TourPoint> points;
 
     public Tour(String tourName, String author, String city, int tourID, TourCategory category) {
         this.tourName = tourName;
@@ -29,6 +35,7 @@ public class Tour implements Serializable {
         this.city = city;
         this.tourID = tourID;
         this.category = category;
+        this.points = new ArrayList<>();
     }
 
     public void setDescrip(String descrip) {
@@ -49,6 +56,14 @@ public class Tour implements Serializable {
 
     public void setAudioIntroURL(URL audioIntroURL) {
         this.audioIntroURL = audioIntroURL;
+    }
+
+    public void addPoint(TourPoint tp) {
+        points.add(tp);
+    }
+
+    public void setPoints(List<TourPoint> points) {
+        this.points = points;
     }
 
     public static ArrayList<Tour> getTours() {
