@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class TourSearch extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class TourSearch extends AppCompatActivity {
     final static  String bundleCity = "CITY";
     final static String bundleRating = "RATING";
     final static String bundleImageURL = "IMAGE URL";
-    Tour selectedTour;
+    final static String TAG = "MyActivity";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,7 +55,12 @@ public class TourSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_search);
 
-        ArrayList<Tour> arrayOfTours = Tour.getTours();
+        ArrayList<Tour> arrayOfTours = null;
+        try {
+            arrayOfTours = Tour.getTours();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         ToursAdapter adapter = new ToursAdapter(this, arrayOfTours);
 
         final ListView lv = (ListView) findViewById (R.id.lvTours);
@@ -86,11 +92,19 @@ public class TourSearch extends AppCompatActivity {
                 bundle.putString(bundleRating, "");
 
                 bundle.putString(bundleImageURL, "https://www.ubc.ca/_assets/img/martha-piper-plaza-1920x700.jpg");
-                Intent appInfo = new Intent(getBaseContext(), TourDetailActivity.class);
+                Intent intent = new Intent(getBaseContext(), TourDetailActivity.class);
+                intent.putExtras(bundle);
 
-                appInfo.putExtra("tour", tour);
 
-                startActivity(appInfo);
+                if (tour != null) {
+                    Log.d(TAG, "onItemClick: " + bundle.get(bundleDescrip));  // a line to test if object is null or not
+                    startActivity(intent);
+
+                } else {
+                    return;
+                }
+
+
             }
         });
 
