@@ -3,6 +3,7 @@ package com.example.jacobtutu.walkytalky;
 import android.media.Rating;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -10,15 +11,15 @@ import java.util.Date;
  */
 
 public class Tour {
-    private int tourID;
-    private String tourName;
-    private String descrip;
-    private String author;
-    private Date dateCreated;
-    private String city;
-    private Rating rating;
-    private URL imageURL;
-    private URL audioIntroURL;
+    public int tourID;
+    public String tourName;
+    public String descrip;
+    public String author;
+    public Date dateCreated;
+    public String city;
+    public Rating rating;
+    public URL imageURL;
+    public URL audioIntroURL;
 
     public Tour(String tourName, String author, String city, int tourID) {
         this.tourName = tourName;
@@ -45,5 +46,13 @@ public class Tour {
 
     public void setAudioIntroURL(URL audioIntroURL) {
         this.audioIntroURL = audioIntroURL;
+    }
+
+    public static ArrayList<Tour> getTours() {
+        ArrayList<Tour> tours = new ArrayList<Tour>();
+        tours.add(new Tour("Van Tour", "Caleigh", "Vancouver", 1));
+        tours.add(new Tour("UBC", "Nicole", "Vancouver", 2));
+        tours.add(new Tour("Gastown", "Ostap", "Vancouver", 3));
+        return tours;
     }
 }
