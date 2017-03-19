@@ -11,14 +11,16 @@ public class TourDetailActivity extends AppCompatActivity {
 
     private TextView activityDescription;
 
-    // Tour selectedTour = (Tour) getIntent().getSerializableExtra("tour");
-    // String descrip = selectedTour.descrip;
+    private Tour selectedTour;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_detail);
-
+        selectedTour = (Tour) getIntent().getSerializableExtra("tour");
+//        String descrip = selectedTour.descrip;
 //        activityDescription = (TextView) findViewById(R.id.descriptionDisplayed);
 //        activityDescription.setText();
 
@@ -29,7 +31,7 @@ public class TourDetailActivity extends AppCompatActivity {
 
     public void nextView(View view) {
         Intent appInfo = new Intent(getBaseContext(), TourScreen.class);
-        // appInfo.putExtra("tour", selectedTour);
+        appInfo.putExtra("tour", selectedTour);
 
         startActivity(appInfo);
     }
