@@ -7,3 +7,11 @@
 /build
 /captures
 .externalNativeBuild
+/bin
+/gen
+*.class
+*.ap_
+*.apk
+/gradle.properties
+previous_commits.txt
+.idea

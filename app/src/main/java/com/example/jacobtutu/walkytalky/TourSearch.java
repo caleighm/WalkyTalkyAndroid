@@ -5,7 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class TourSearch extends AppCompatActivity {
 
@@ -37,9 +40,16 @@ public class TourSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_search);
 
+        ArrayList<Tour> arrayOfTours = Tour.getTours();
+        ToursAdapter adapter = new ToursAdapter(this, arrayOfTours);
+
+        ListView lv = (ListView) findViewById (R.id.lvTours);
+
+        lv.setAdapter(adapter);
+        setContentView(lv);
+
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
-
 }
