@@ -1,6 +1,7 @@
 package com.example.jacobtutu.walkytalky;
 
 import com.example.jacobtutu.walkytalky.util.LatLon;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,17 +13,17 @@ import java.util.List;
  */
 
 public class TourPoint {
-    private int tourID;
-    private int pointID;
-    private String name;
-    private String address;
-    private int orderInTour;
-    private URL audioURL;
-    private URL imageURL;
-    private List<PointCategory> categories;
-    private LatLon latLon;
+    public int tourID;
+    public int pointID;
+    public String name;
+    public String address;
+    public int orderInTour;
+    public URL audioURL;
+    public URL imageURL;
+    public List<PointCategory> categories;
+    public LatLng latLon;
 
-    public TourPoint(String name, int pointID, int tourID, int orderInTour, LatLon latLon) {
+    public TourPoint(String name, int pointID, int tourID, int orderInTour, LatLng latLon) {
         this.name = name;
         this.pointID = pointID;
         this.latLon = latLon;

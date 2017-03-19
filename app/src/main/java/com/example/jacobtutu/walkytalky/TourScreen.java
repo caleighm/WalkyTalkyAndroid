@@ -9,10 +9,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Tour tour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +41,17 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Tour tour = (Tour) getIntent().getSerializableExtra("tour");
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        List<TourPoint> points = tour.points;
+        PolylineOptions pointOptions = new PolylineOptions();
+        for (TourPoint p : points) {
+            mMap.addMarker(new MarkerOptions().position(p.latLon).title(p.name));
+            pointOptions.add(p.latLon);
+        }
+        mMap.addPolyline(pointOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(tour.points.get(0).latLon));
     }
+
 }
