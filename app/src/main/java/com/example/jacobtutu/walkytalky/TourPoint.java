@@ -13,15 +13,15 @@ import java.util.List;
  */
 
 public class TourPoint {
-    private int tourID;
-    private int pointID;
-    private String name;
-    private String address;
-    private int orderInTour;
-    private URL audioURL;
-    private URL imageURL;
-    private List<PointCategory> categories;
-    private LatLng latLon;
+    public int tourID;
+    public int pointID;
+    public String name;
+    public String address;
+    public int orderInTour;
+    public URL audioURL;
+    public URL imageURL;
+    public List<PointCategory> categories;
+    public LatLng latLon;
 
     public TourPoint(String name, int pointID, int tourID, int orderInTour, LatLng latLon) {
         this.name = name;

@@ -44,7 +44,7 @@ public class TourParser {
     private URL pointImageURL;
     private URL audioURL;
     private List<PointCategory> categories;
-    private List<TourPoint> tourPoints;
+    public List<TourPoint> tourPoints;
 
     public TourParser(String filename) {
         this.filename = filename;
