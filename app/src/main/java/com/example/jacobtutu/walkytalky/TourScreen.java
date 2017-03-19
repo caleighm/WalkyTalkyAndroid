@@ -89,9 +89,9 @@ public class TourScreen extends FragmentActivity implements OnMapReadyCallback {
 //         mMap.moveCamera(CameraUpdateFactory.newLatLng(tour.points.get(0).latLon));
 
 //        mMap.addPolyline(pointOptions);
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(0).latLon, 13));
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(points.get(0).latLon, 15, 0, 0)));
+//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(points.get(0).latLon, 15, 0, 0)));
 
 
     }
