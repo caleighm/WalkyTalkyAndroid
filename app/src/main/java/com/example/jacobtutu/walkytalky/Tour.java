@@ -2,16 +2,16 @@ package com.example.jacobtutu.walkytalky;
 
 import android.media.Rating;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by jacobtutu on 18/03/17.
  */
 
-public class Tour {
+public class Tour implements Serializable {
     public int tourID;
     public String tourName;
     public String descrip;

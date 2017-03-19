@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class TourSearch extends AppCompatActivity {
@@ -19,11 +20,12 @@ public class TourSearch extends AppCompatActivity {
     private TextView mTextMessage;
     final static  String bundleTourName = "TOUR NAME";
     final static  String bundleDescrip = "DESCRIP";
-    final static String bundleAuthor= "AUTHOR";
-    final static String bundleDateCreated= "DATE CREATED";
-    final static  String bundleCity= "CITY";
-    final static String bundleRating= "RATING";
-    final static String bundleImageURL= "IMAGE URL";
+    final static String bundleAuthor = "AUTHOR";
+    final static String bundleDateCreated = "DATE CREATED";
+    final static  String bundleCity = "CITY";
+    final static String bundleRating = "RATING";
+    final static String bundleImageURL = "IMAGE URL";
+    Tour selectedTour;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,6 +47,7 @@ public class TourSearch extends AppCompatActivity {
         }
 
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +76,20 @@ public class TourSearch extends AppCompatActivity {
                 bundle.putString(bundleTourName, tour.tourName);
                 bundle.putString(bundleDescrip, tour.descrip);
                 bundle.putString(bundleAuthor, tour.author);
+
                 // bundle.putString(bundleDateCreated, tour.dateCreated.toString());
+                bundle.putString(bundleDateCreated, "");
+
                 bundle.putString(bundleCity, tour.city);
+
                 // bundle.putString(bundleRating, tour.rating.toString());
-                // bundle.putString(bundleImageURL, tour.imageURL.toString());
+                bundle.putString(bundleRating, "");
 
-
+                bundle.putString(bundleImageURL, "https://www.ubc.ca/_assets/img/martha-piper-plaza-1920x700.jpg");
                 Intent appInfo = new Intent(getBaseContext(), TourDetailActivity.class);
+
+                appInfo.putExtra("tour", tour);
+
                 startActivity(appInfo);
             }
         });
